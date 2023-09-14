@@ -6,7 +6,7 @@ class App(CTk):
     def __init__(self):
         super().__init__()
         self.title("Шифратор")
-        self.geometry("800x450+250+200")
+        self.geometry("800x450+300+200")
         set_appearance_mode("dark")
         set_default_color_theme("green")
         self.resizable(False, False)
@@ -16,7 +16,7 @@ class App(CTk):
 
         self.appearance_mode_optionemenu = CTkOptionMenu(
             self,
-            values=["Dark", "Light", "System"],
+            values=["Тёмная", "Светлая", "Системная"],
             command=self.change_appearance_mode_event,
             width=40
         )
@@ -32,7 +32,7 @@ class App(CTk):
             self,
             width=600
             )
-        self.tab.place(x=100, y=100)
+        self.tab.place(x=100, y=50)
 
         self.tab.add("Шифр цезаря")
         self.tab.add("Шифр 2")
@@ -104,13 +104,27 @@ class App(CTk):
             command=lambda: copyResault(self.output.get(0.1, "end")),
             width=50
         )
-        self.copyButton.grid(row=5, column=1)
+        self.copyButton.grid(row=5, column=2)
+        self.pasteButton = CTkButton(
+            self.tab.tab("Шифр цезаря"),
+            text="Вставить текст",
+            height=30,
+            command= self.getCopyed,
+            width=50
+        )
+        self.pasteButton.grid(row=5, column=0)
 
 
 
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
-        set_appearance_mode(new_appearance_mode)
+        if new_appearance_mode == "Светлая":
+            set_appearance_mode('light')
+
+        elif new_appearance_mode == "Тёмная":
+            set_appearance_mode('dark')
+        else:
+            set_appearance_mode('system')
 
     def startCezarEncode(self):
         self.inputedText = self.input.get(0.1, "end")
@@ -139,3 +153,9 @@ class App(CTk):
         except ValueError:
             self.output.delete(0.1, "end")
             self.output.insert(0.1, "Ключ введён не правильно")
+
+    def getCopyed(self):
+        buffer = pasteCopyed()
+
+        self.input.delete(0.1, "end")
+        self.input.insert(0.1, buffer)

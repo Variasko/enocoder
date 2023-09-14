@@ -1,4 +1,3 @@
-from customtkinter import *
 from pyperclip import *
 
 def cezar_encode(message, language, key):
@@ -60,3 +59,6 @@ def cezar_decode(message, language, key):
 
 def copyResault(a):
     copy(a)
+
+def pasteCopyed():
+    return paste()
