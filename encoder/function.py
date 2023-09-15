@@ -1,4 +1,5 @@
 from pyperclip import *
+import hashlib
 
 def cezar_encode(message, language, key):
     ruUpperLetters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -62,3 +63,22 @@ def copyResault(a):
 
 def pasteCopyed():
     return paste()
+
+def hashEnocode(text, type):
+
+    if type == "md5":
+        hash = hashlib.md5(text.encode('utf-8'))
+        val = hash.hexdigest()
+    elif type == "sha3_224":
+        hash = hashlib.sha224(text.encode('utf-8'))
+        val = hash.hexdigest()
+    elif type == "sha3_256":
+        hash = hashlib.sha256(text.encode('utf-8'))
+        val = hash.hexdigest()
+    elif type == "sha384":
+        hash = hashlib.sha384(text.encode('utf-8'))
+        val = hash.hexdigest()
+    return val
+
+
+
