@@ -80,5 +80,10 @@ def hashEnocode(text, type):
         val = hash.hexdigest()
     return val
 
+def hex_encoder(text):
+    encoded_text = text.encode('utf-8').hex()
+    return encoded_text
 
-
+def hex_decoder(encoded_text):
+    decoded_text = bytes.fromhex(encoded_text).decode('utf-8')
+    return decoded_text
