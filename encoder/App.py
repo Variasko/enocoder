@@ -52,7 +52,7 @@ class App(CTk):
         self.tab.add("ASCII-кодирование")
         self.tab.add("Бинарное-кодирование")
         self.tab.add("Хеш-кодирование")
-        self.tab.set("Хекс-кодирование")
+        self.tab.set("Хеш-кодирование")
 
         self.infoButton = CTkButton(
             self,
@@ -70,14 +70,14 @@ class App(CTk):
             self.tab.tab("Шифр цезаря"),
             values=["RU", "ENG"]
         )
-        self.language.grid(row=1, column=1, padx=10)
+        self.language.grid(row=1, column=1, padx=15)
         #input widgets for Cezar enocode
         self.inLabel = CTkLabel(
             self.tab.tab("Шифр цезаря"),
             text="Введите текст для шифрации",
             font=("Arial", 12)
             )
-        self.inLabel.grid(row=0, column=0)
+        self.inLabel.grid(row=0, column=0, padx=50)
         self.input = CTkTextbox(
             self.tab.tab("Шифр цезаря"),
             height=70
@@ -97,7 +97,7 @@ class App(CTk):
             text="Результат",
             font=("Arial", 12)
         )
-        self.outLabel.grid(row=0, column=2)
+        self.outLabel.grid(row=0, column=2, padx=105)
         self.output = CTkTextbox(
             self.tab.tab("Шифр цезаря"),
             height=70
@@ -143,12 +143,12 @@ class App(CTk):
             text="Введите текст для шифрации",
             font=("Arial", 12)
         )
-        self.inputLabelHash.grid(row=0, column=0, padx=15)
+        self.inputLabelHash.grid(row=0, column=0)
         self.inputHash = CTkTextbox(
             self.tab.tab("Хеш-кодирование"),
             height=70
         )
-        self.inputHash.grid(row=1, column=0)
+        self.inputHash.grid(row=1, column=0, padx=(20,10))
         #hash output
         self.outputLabelHash = CTkLabel(
             self.tab.tab("Хеш-кодирование"),
@@ -156,12 +156,12 @@ class App(CTk):
             font=("Arial", 12),
             height=50
         )
-        self.outputLabelHash.grid(row=0, column=2)
+        self.outputLabelHash.grid(row=0, column=2, padx=30)
         self.outputHash = CTkTextbox(
             self.tab.tab("Хеш-кодирование"),
             height=70
         )
-        self.outputHash.grid(row=1, column=2)
+        self.outputHash.grid(row=1, column=2, padx=(10, 20))
         #hash buttons
         self.hashEnocodeButton = CTkButton(
             self.tab.tab("Хеш-кодирование"),
@@ -210,7 +210,7 @@ class App(CTk):
             self.tab.tab("Хекс-кодирование"),
             height=70
         )
-        self.inputHex.grid(row=1, column=0)
+        self.inputHex.grid(row=1, column=0, pady=(0,30), padx=(20, 30))
         #output
         self.outLabelHex = CTkLabel(
             self.tab.tab("Хекс-кодирование"),
@@ -222,8 +222,32 @@ class App(CTk):
             self.tab.tab("Хекс-кодирование"),
             height=70
         )
-        self.outputHex.grid(row=1, column=2)
-
+        self.outputHex.grid(row=1, column=2, pady=(0,30), padx=(30, 20))
+        #buttons
+        self.hexEncodeButton = CTkButton(
+            self.tab.tab("Хекс-кодирование"),
+            text="Зашифровать",
+            command=self.startHexEncode
+        )
+        self.hexEncodeButton.grid(row=2, column=0)
+        self.hexDecodeButton = CTkButton(
+            self.tab.tab("Хекс-кодирование"),
+            text="Расшифровать",
+            command=self.startHexDecode
+        )
+        self.hexDecodeButton.grid(row=2, column=2)
+        self.hexCopyButton = CTkButton(
+            self.tab.tab("Хекс-кодирование"),
+            text="Скопировать текст",
+            command=self.getCopyedHex
+        )
+        self.hexCopyButton.grid(row=2, column=1)
+        self.hexPasteButton = CTkButton(
+            self.tab.tab("Хекс-кодирование"),
+            text="Вставить текст",
+            command=self.pasteHex
+        )
+        self.hexPasteButton.grid(row=3, column=1, pady=20)
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         if new_appearance_mode == "Светлая":
@@ -290,3 +314,20 @@ class App(CTk):
             text=self.text,
             title="INFORMATION"
         )
+
+    def startHexEncode(self):
+        text = self.inputHex.get(0.1, "end")
+        res = hex_encoder(text)
+        self.outputHex.delete(0.1, "end")
+        self.outputHex.insert(0.1, res)
+
+    def startHexDecode(self):
+        res = hex_decoder(self.inputHex.get(0.1, "end"))
+        self.outputHex.delete(0.1, "end")
+        self.outputHex.insert(0.1, res)
+    def getCopyedHex(self):
+        copyResault(self.outputHex.get(0.1, "end"))
+    def pasteHex(self):
+        res = pasteCopyed()
+        self.inputHex.delete(0.1, "end")
+        self.inputHex.insert(0.1, res)
