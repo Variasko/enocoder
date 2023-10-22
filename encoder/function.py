@@ -1,6 +1,8 @@
 from pyperclip import *
 import hashlib
 
+from datetime import *
+
 def cezar_encode(message, language, key):
     ruUpperLetters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 
@@ -10,7 +12,7 @@ def cezar_encode(message, language, key):
 
     text = message.upper()
 
-    if language == 'Русский RU':
+    if language == 'RU':
         for i in text:
             mesto = ruUpperLetters.find(i)  # Алгоритм для шифрования сообщения на русском
             new_mesto = (mesto + key) % 33
@@ -27,7 +29,6 @@ def cezar_encode(message, language, key):
             else:
                 resault += i
 
-
     return resault.lower()
 
 def cezar_decode(message, language, key):
@@ -39,7 +40,7 @@ def cezar_decode(message, language, key):
 
     text = message.upper()
 
-    if language == 'Русский RU':
+    if language == 'RU':
         for i in text:
             mesto = ruUpperLetters.find(i)  # Алгоритм для шифрования сообщения на русском
             new_mesto = (mesto - key) % 33
@@ -87,3 +88,57 @@ def hex_encoder(text):
 def hex_decoder(encoded_text):
     decoded_text = bytes.fromhex(encoded_text).decode('utf-8')
     return decoded_text
+
+
+def ASCII_encode(text):
+
+    resault = ''
+    resault_a = ''
+
+    for i in text:
+        resault_a += str(ord(i)) + " "
+
+        resault = resault_a[:len(resault_a) - 3]
+
+    return resault
+
+def ASCII_decode(text):
+    resault = ''
+
+    text = text.split()
+
+    for i in text:
+        resault += str(chr(int(i)))
+
+    return resault
+
+
+def binary_encode_russian(text):
+    result = ""
+    for char in text:
+        binary_code = bin(ord(char))[2:].zfill(16)
+        result += binary_code
+    return result
+
+def binary_decode_russian(binary_text):
+    result = ""
+    for i in range(0, len(binary_text), 16):
+        binary_code = binary_text[i:i+16]
+        char = chr(int(binary_code, 2))
+        result += char
+    return result
+
+def binary_encode_english(text):
+    result = ""
+    for char in text:
+        binary_code = bin(ord(char))[2:].zfill(8)
+        result += binary_code
+    return result
+
+def binary_decode_english(binary_text):
+    result = ""
+    for i in range(0, len(binary_text), 8):
+        binary_code = binary_text[i:i+8]
+        char = chr(int(binary_code, 2))
+        result += char
+    return result
